@@ -3,9 +3,9 @@ import sys
 sys.path.append('src')
 from application import setup_app
 
-def run():
+def run(*args, **kw):
     app = setup_app()
-    return app
+    app.run_server(*args, **kw)
     
 if __name__ == '__main__':
     app = setup_app()
