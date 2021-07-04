@@ -1,1 +1,1 @@
-web: cd src && gunicorn 'run:run()'
+web: gunicorn 'run:run()'
