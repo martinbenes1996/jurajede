@@ -1,12 +1,16 @@
+import logging
 import os
 import sys
 sys.path.append('src')
 from application import setup_app
 
+# run production server
 def run(*args, **kw):
     app = setup_app()
+    logging.warning(str(args) + " " + str(kw))
     app.run_server(*args, **kw)
     
+# run debug server
 if __name__ == '__main__':
     app = setup_app()
     port = os.environ.get("PORT", 33507)
