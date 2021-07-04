@@ -1,1 +1,1 @@
-web: gunicorn 'src/run:create_app()'
+web: gunicorn 'src/run:run()'
