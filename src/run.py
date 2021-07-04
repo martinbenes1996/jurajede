@@ -22,15 +22,19 @@ def create_light_app():
     # Light: LUX FLATLY LUMEN SKETCHY JOURNAL SANDSTONE UNITED PULSE MINTY MATERIA SIMPLEX
     return create_app(dbc.themes.LUX)
 
-# create app
-app = create_light_app()
-# set layout
-app.layout = frontend.layout()
-# initialize frontend
-import data
-frontend.register(app, data.cyklo.load)
-#server = app.server
-
-# run server
-if __name__ == '__main__':
+def run():
+    # create app
+    app = create_light_app()
+    # set layout
+    app.layout = frontend.layout()
+    # initialize frontend
+    import data
+    frontend.register(app, data.cyklo.load)
+    #server = app.server
+    # run server
     app.run_server(debug=True)
+
+
+if __name__ == '__main__':
+    run()
+    
