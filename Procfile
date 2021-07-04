@@ -1,1 +1,1 @@
-worker: python app.py #gunicorn 'app:run()' --preload -b 0.0.0.0:5000 
+web: gunicorn 'app:run()'
