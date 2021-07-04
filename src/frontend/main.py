@@ -13,7 +13,7 @@ from . import page_about
 from . import page_data
 
 def layout():
-    print("main.layout()")
+    #print("main.layout()")
     sidebar = nav.layout()
     content = html.Div([
         html.Div(id="page-content"),
@@ -41,7 +41,7 @@ def register(app):
     @app.callback([Output("content-loader","children"),Output("page-content","children")],
                   [Input("url", "pathname")])
     def loading_page_spinner(pathname):
-        print("main.loading_page_spinner()")
+        #print("main.loading_page_spinner()")
         if pathname == "/": layout = page_home.layout()
         elif pathname == "/total": layout = page_total.layout()
         #elif pathname == "/yearly": layout = page_yearly.layout()
@@ -60,14 +60,14 @@ def register(app):
         
     @app.callback(Output("sidebar", "className"),Input("sidebar-toggle", "n_clicks"),State("sidebar", "className"))
     def toggle_classname(n, classname):
-        print("main.toggle_classname()")
+        #print("main.toggle_classname()")
         if n and classname == "":
             return "collapsed"
         return ""
     
     @app.callback(Output("collapse", "is_open"),Input("navbar-toggle", "n_clicks"),State("collapse", "is_open"))
     def toggle_collapse(n, is_open):
-        print("main.toggle_collapse()")
+        #print("main.toggle_collapse()")
         if n:
             return not is_open
         return is_open
