@@ -19,7 +19,7 @@ def layout():
         html.Div(id="page-content"),
         html.Div(
             dcc.Loading(
-                type="dot",
+                type="cube",
                 color="black",
                 children=[html.Div(id="content-loader")]
             ),
