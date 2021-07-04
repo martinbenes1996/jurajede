@@ -1,5 +1,8 @@
 pandas
 plotly
 dash
+dash_bootstrap_components
+dash_core_components
+dash_html_components
 dash-table
 gunicorn
