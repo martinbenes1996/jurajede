@@ -34,9 +34,11 @@ def create_plot(history_size):
 def register(app):
     @app.callback(
         dash.dependencies.Output('pie-months', 'figure'),
-        dash.dependencies.Input('history-size-slider', 'value')
+        dash.dependencies.Input('history-size-slider', 'value'),
+        prevent_initial_call=True
     )
     def get_plot(index):
+        print("chart_pie_months.get_plot()")
         history_size = config.history.size(index)
         return create_plot(history_size)
     

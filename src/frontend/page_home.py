@@ -32,11 +32,10 @@ def layout():
     # this month
     now = config.data.this_month()
     this_month = datetime.strptime('%04d-%02d-01' % now, '%Y-%m-%d')
-    return html.Div([
-        # header
-        #html.H3('Dashboard'),      
+    return html.Div([    
         dbc.Row([
             dbc.Col([
+                "Zobraz relativně k historii o délce",
                 dcc.RangeSlider(
                     id='history-size-slider',
                     min=config.history.min(),
@@ -53,7 +52,7 @@ def layout():
         ], style={'paddingTop': '2vh', 'paddingBottom': '2vh'}),
         dbc.Row(
             dbc.Col(
-                html.H5('Tento měsíc')#'This month')
+                html.H5('Výkon za tento měsíc')#'This month')
             )
         ),
         dbc.CardDeck([
@@ -63,7 +62,12 @@ def layout():
         ]),
         dbc.Row(
             dbc.Col(
-                html.H5('Tento rok')#'This year')
+                html.H5('Výkon za tento rok')#'This year')
+            )
+        ),
+        dbc.Row(
+            dbc.Col(
+                "v kontextu klouzavého průměru posledních let a intervalu spolehlivosti 95%"
             )
         ),
         dbc.CardDeck([

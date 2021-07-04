@@ -26,6 +26,9 @@ def get_month_data(history_size):
         .drop(x.index[x.shape[0]-1])
     return now,past
 
+indicator_title = {'km': "Ujeto", "km_p_day": "Denní průměr", "km_p_activeday": "Průměr aktivních dnů",
+                   'km-total': "Ujeto", "equators-total": "Dokola kolem rovníku", "days-total": "Aktivních dní na kole"}
+
 def create_month_indicator(history_size, attr):
     #print(f"Creating month indicator for {attr} with history {history_size}")
     # get data
@@ -39,13 +42,14 @@ def create_month_indicator(history_size, attr):
     attr_past_mean = past[attr].mean()
     #print(f'month indicator {attr} with {attr_now}/{attr_past_mean}')
     # plot
+    title = indicator_title.get(attr, None)
     fig = go.Figure()
     fig.add_trace(go.Indicator(
-        #title = {"text": "Last month"},
+        title = {"text": title, 'font': {'size': 10}},
         mode = "number+delta",
         value = attr_now,
         number = {'suffix': config.indicators.suffix(attr), 'font': {'size': 20}, 'prefix': config.indicators.prefix(attr)},
-        delta = {'reference': attr_past_mean, 'relative': True, 'font': {'size': 10}}#,
+        delta = {'reference': attr_past_mean, 'relative': True, 'font': {'size': 15}}#,
         #domain = {'row': 0, 'column': 0}
     ))
     fig.update_layout(**config.style.layout())
@@ -67,9 +71,10 @@ def create_total_indicator(history_size, attr, format=None):
         value = int(value)
         format = 'ld'
     # plot
+    title = indicator_title.get(attr + "-total", None)
     fig = go.Figure()
     fig.add_trace(go.Indicator(
-        #title = {"text": "Last month"},
+        title = {"text": title, 'font': {'size': 10}},
         mode = "number",
         value = value,
         number = {'valueformat': format, 'suffix': config.indicators.suffix(attr), 'font': {'size': 20}, 'prefix': config.indicators.prefix(attr)}
@@ -82,30 +87,38 @@ def create_total_indicator(history_size, attr, format=None):
 def register(app):
     @app.callback(
         dash.dependencies.Output(f'indicator-km', 'figure'),
-        dash.dependencies.Input('history-size-slider', 'value')
+        dash.dependencies.Input('history-size-slider', 'value'),
+        prevent_initial_call=True
     )
     def _km(index):
+        print("chart_indicators._km()")
         history_size = config.history.size(index)
         return create_month_indicator(history_size, 'km')
     @app.callback(
         dash.dependencies.Output(f'indicator-km_p_day', 'figure'),
-        dash.dependencies.Input('history-size-slider', 'value')
+        dash.dependencies.Input('history-size-slider', 'value'),
+        prevent_initial_call=True
     )
     def _km_p_day(index):
+        print("chart_indicators._km_p_day()")
         history_size = config.history.size(index)
         return create_month_indicator(history_size, 'km_p_day')
     @app.callback(
         dash.dependencies.Output(f'indicator-km_p_activeday', 'figure'),
-        dash.dependencies.Input('history-size-slider', 'value')
+        dash.dependencies.Input('history-size-slider', 'value'),
+        prevent_initial_call=True
     )
     def _km_p_activeday(index):
+        print("chart_indicators._km_p_activeday()")
         history_size = config.history.size(index)
         return create_month_indicator(history_size, 'km_p_activeday')
     @app.callback(
         dash.dependencies.Output('indicator-km-total', 'figure'),
-        dash.dependencies.Input('history-size-slider', 'value')
+        dash.dependencies.Input('history-size-slider', 'value'),
+        prevent_initial_call=True
     )
     def _km_total(index):
+        print("chart_indicators._km_total()")
         history_size = config.history.size(index)
         return create_total_indicator(history_size, 'km')
     #@app.callback(

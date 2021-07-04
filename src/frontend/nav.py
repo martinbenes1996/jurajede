@@ -17,8 +17,10 @@ def layout():
                         href="/", active="exact"),
             dbc.NavLink("Celkem",#"Total",
                         href="/total", active="exact"),
-            dbc.NavLink("Ročně",#"Yearly",
-                        href="/yearly", active="exact"),
+            #dbc.NavLink("Ročně",#"Yearly",
+            #            href="/yearly", active="exact"),
+            dbc.NavLink("O mně",
+                        href="/about", active="exact"),
             dbc.NavLink("Data", href="/data", active="exact"),
         ], vertical=True, pills=True)
     ], id="sidebar")

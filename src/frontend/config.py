@@ -47,10 +47,16 @@ class history:
     #    else: current = current[0]
     #    return f'History: {cls.label(cls.current())}.'
 
-class yearly:
+class total:
     #_labels = ['Monthly', 'Daily (avg.)', 'Active', 'Idle']
-    _labels = ['Měsíčně', 'Denně (prům.)', 'Aktivní', 'Neaktivní']
+    _labels = ['Měsíční', 'Denní (prům.)', 'Aktivní dny', 'Neaktivní']
     _attributes = ['km','km_p_day','days','days_off']
+    _suffixes = {'km': ' km',
+                 'km_p_day': ' km/den',#' km/day',
+                 'km_p_activeday': ' km/aktivní den',#' km/active day',
+                 'days': ' dní',#' days',
+                 'days_off': ' dní',
+                 'equators': ' rovníků'}#' equators'}
     _default = 0
     @classmethod
     def default(cls, index=False):
@@ -66,6 +72,9 @@ class yearly:
         if current is None: current = cls._default
         else: current = current[0]
         return cls._attributes[current]
+    @classmethod
+    def suffix(cls, type):
+        return cls._suffixes.get(type, '')
     @classmethod
     def labels(cls): return cls._labels
     @classmethod
@@ -75,33 +84,33 @@ class yearly:
     @classmethod
     def max(cls): return cls.size() - 1
 
-class series:
-    #_labels = ['Monthly','Daily (avg.)','Activity'],
-    _labels = ['Měsíčně','Denně (prům.)','Aktivní dny']
-    _attributes = ['km','km_p_day','days']
-    _default = 0
-    @classmethod
-    def default(cls, index=False):
-        if not index: return cls._labels[cls._default]
-        else: return cls._default
-    @classmethod
-    def label(cls, current=None):
-        if current is None: current = cls._default
-        else: current = current[0]
-        return cls._labels[current]
-    @classmethod
-    def attribute(cls, current=None):
-        if current is None: current = cls._default
-        else: current = current[0]
-        return cls._attributes[current]
-    @classmethod
-    def labels(cls): return cls._labels
-    @classmethod
-    def size(cls): return len(cls._labels)
-    @classmethod
-    def min(cls): return 0
-    @classmethod
-    def max(cls): return cls.size() - 1
+#class series:
+#    #_labels = ['Monthly','Daily (avg.)','Activity'],
+#    _labels = ['Měsíčně','Denně (prům.)','Aktivní dny']
+#    _attributes = ['km','km_p_day','days']
+#    _default = 0
+#    @classmethod
+#    def default(cls, index=False):
+#        if not index: return cls._labels[cls._default]
+#        else: return cls._default
+#    @classmethod
+#    def label(cls, current=None):
+#        if current is None: current = cls._default
+#        else: current = current[0]
+#        return cls._labels[current]
+#    @classmethod
+#    def attribute(cls, current=None):
+#        if current is None: current = cls._default
+#        else: current = current[0]
+#        return cls._attributes[current]
+#    @classmethod
+#    def labels(cls): return cls._labels
+#    @classmethod
+#    def size(cls): return len(cls._labels)
+#    @classmethod
+#    def min(cls): return 0
+#    @classmethod
+#    def max(cls): return cls.size() - 1
 
 class indicators:
     #_types = {'km': 'Kilometers', 'km_p_day': 'Average daily kilometers', 'km_p_activeday': 'Average kilometers per active day', 'days': 'Days', 'equators': 'Earth equators'}

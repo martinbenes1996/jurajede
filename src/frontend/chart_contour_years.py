@@ -27,7 +27,19 @@ def create_plot(attribute):
         data=go.Contour(
             z=z,
             x=months_names,
-            y=years
+            y=years,
+            #contours=dict(
+            #    coloring ='heatmap',
+            #    showlabels = True, # show labels on contours
+            #    labelfont = dict( # label font properties
+            #        size = 12,
+            #        color = 'white',
+            #    )
+            #),
+            hovertemplate=
+                "<b>%{x} %{y}</b><br>" +
+                "%{z:.0f}"+config.total.suffix(attribute)+
+                "<extra></extra>"
         )
     )
     fig.update_layout(**config.style.layout())
@@ -36,13 +48,15 @@ def create_plot(attribute):
 def register(app):
     @app.callback(
         dash.dependencies.Output('contour-years', 'figure'),
-        dash.dependencies.Input('yearly-type-slider', 'value')
+        dash.dependencies.Input('series-type-slider', 'value'),
+        prevent_initial_call=True
     )
     def get_plot(index):
-        attribute = config.yearly.attribute(index)
+        print("chart_contour_years.get_plot()")
+        attribute = config.total.attribute(index)
         return create_plot(attribute)
     
     
 def years():
-    default_attribute = config.yearly.attribute()
+    default_attribute = config.total.attribute()
     return create_plot(default_attribute) # default from config
