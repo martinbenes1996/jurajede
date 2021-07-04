@@ -6,6 +6,7 @@ from application import setup_app
 
 # initialize app object
 app = setup_app()
+server = app.server
 
 # run server
 if __name__ == '__main__':
