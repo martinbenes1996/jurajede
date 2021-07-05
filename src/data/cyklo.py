@@ -1,11 +1,30 @@
 
 from datetime import datetime
+import io
+import logging
 import numpy as np
 import pandas as pd
+import requests
+
+#def raw():
+#    """Load raw."""
+#    return pd.read_csv('data/data.csv')
 
 def raw():
     """Load raw."""
-    return pd.read_csv('data/data.csv')
+    logging.warning("fetching data from google drive")
+    URL = 'https://docs.google.com/uc?export=download'
+    # session
+    session = requests.Session()
+    response = session.get(URL, params = {'id': '1kHE_NB4gvIJxNJmjYklYgePA47jxp7eY'})
+    # confirm token
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            params = { 'id' : id, 'confirm' : value }
+            response = session.get(URL, params = params)
+            break
+    # parse csv
+    return pd.read_csv(io.StringIO(response.text))
 
 def monthly():
     """Load monthly means."""
@@ -130,4 +149,3 @@ def load(join_behind = True):
     x['age'] = (x.date - datetime(1971,1,13)).apply(lambda a: a.days / 365.24)
     # return
     return x
-

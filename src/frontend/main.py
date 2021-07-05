@@ -56,8 +56,6 @@ def register(app):
             ])
         return [],layout
     
-    
-        
     @app.callback(Output("sidebar", "className"),Input("sidebar-toggle", "n_clicks"),State("sidebar", "className"))
     def toggle_classname(n, classname):
         #print("main.toggle_classname()")

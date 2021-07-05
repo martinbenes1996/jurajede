@@ -45,7 +45,7 @@ def create_month_indicator(history_size, attr):
     title = indicator_title.get(attr, None)
     fig = go.Figure()
     fig.add_trace(go.Indicator(
-        title = {"text": title, 'font': {'size': 10}},
+        title = {"text": title, 'font': {'size': 8}},
         mode = "number+delta",
         value = attr_now,
         number = {'suffix': config.indicators.suffix(attr), 'font': {'size': 20}, 'prefix': config.indicators.prefix(attr)},
@@ -142,6 +142,6 @@ def plot(type, format = None):
     if len(type_list) == 1:
         return create_month_indicator(config.history.default(), type)
     elif len(type_list) == 2 and type_list[1] == 'total':
-        history_size = config.history.size([config.history.max()])
-        return create_total_indicator(history_size, type_list[0], format)
+        #history_size = config.history.size([config.history.max()])
+        return create_total_indicator(100, type_list[0], format)
         

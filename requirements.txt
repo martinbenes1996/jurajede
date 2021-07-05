@@ -7,3 +7,4 @@ dash_html_components
 jupyter_dash
 dash-table
 gunicorn
+requests

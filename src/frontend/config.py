@@ -1,6 +1,6 @@
 import dash
 from dash.dependencies import Input, Output
-from datetime import datetime
+from datetime import datetime,timedelta
 import logging
 import math
 
@@ -163,9 +163,17 @@ class data:
     @classmethod
     def register(cls,src):
         cls._src = src
+        cls._cached = None
+        cls._expires = None
     @classmethod
     def cyklo(cls):
-        return cls._src()
+        # now
+        now = datetime.now()
+        # expired
+        if not cls._expires or now > cls._expires:
+            cls._cached = cls._src()
+            cls._expires = now + timedelta(seconds=10)#minutes=3)
+        return cls._cached
     @classmethod
     def this_month(cls):
         x = cls.cyklo()
