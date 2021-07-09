@@ -38,21 +38,25 @@ def get_table():
     )
 
 def layout():
-    return html.Div([
-        html.Div([
-            html.H2('O mně'),
-            dbc.Card(
-                dbc.CardBody([
-                    #dbc.Row([
-                    #    dbc.Col("Table with data.", style={'textAlign': 'center'})
-                    #]),
-                    dbc.Row([
-                        dbc.Col([
-                            "Já jsem Jura z Brna."
-                        ])
-                    ])
-                ], style={'textAlign': 'justify'})
-            )
+    return dbc.Container([
+        # header
+        dbc.Row([
+            dbc.Col([
+                html.H2('Bio')
+            ], className="text-center")
+        ], className="contentHeader"),
+        dbc.Row([
+            dbc.Col([
+                html.P([
+                    "Já jsem Jura z Brna."
+                ]),
+                html.P([
+                    "Druhý odstavec."
+                ]),
+                html.P([
+                    "Třetí a poslední."
+                ])  
+            ], style={'textAlign': 'justify'})
         ])
     ])
 

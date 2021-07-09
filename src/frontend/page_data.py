@@ -50,25 +50,24 @@ def get_table():
 
 def layout():
     return html.Div([
-        html.Div([
+        # header
+        
+        dbc.Container([
+            dbc.Row([
+            dbc.Col([
+                html.H2('Data')
+            ], className="text-center")
+        ], className="contentHeader"),
             dbc.Row([
                 dbc.Col([
-                    html.H2('Data'),
-                ], width=8),
-                dbc.Col([
-                    dbc.Button("Download CSV", id="btn_csv", outline=True, color="dark"),
+                    dbc.Button("Download CSV", id="btn_csv", outline=True, color="dark", block=True),
                     dcc.Download(id="download-data-csv"),
-                ], width=4, style={'textAlign': 'right'})
+                ], style={'textAlign': 'right',
+                    'marginTop': '2rem', 'marginBottom': '2rem',
+                    'marginLeft': '2rem', 'marginRight': '2rem'})
             ]),
-            dbc.Card(
-                dbc.CardBody([
-                    #dbc.Row([
-                    #    dbc.Col("Table with data.", style={'textAlign': 'center'})
-                    #]),
-                    dbc.Row([
-                        dbc.Col(get_table())
-                    ])
-                ], style={'textAlign': 'center'})
-            )
-        ])
+            dbc.Row([
+                dbc.Col(get_table())
+            ], style={'textAlign': 'center'})
+        ], fluid=True, style={'paddingLeft': '2rem'})
     ])

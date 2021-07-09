@@ -21,13 +21,15 @@ def get_data():
 def create_plot(attribute):
     # get data
     x = get_data()
-    print(attribute)
+    # date
+    x['dateCZ'] = x.apply(lambda r: f'{r.monthCZ} {r.year}', axis=1)
+    year_ticks = x[~x.year.duplicated()].reset_index(drop=True)
+    year_ticks = year_ticks[(year_ticks.index == 0) | (year_ticks.year % 5 == 0)]
     # create plot
-    date_label = x.apply(lambda r: f'{r.monthCZ} {r.year}', axis=1)
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
-            x=date_label, y=x[attribute],
+            x=x['dateCZ'], y=x[attribute],
             hovertemplate=
                 "<b>%{x}</b><br>" +
                 "%{y:.0f}"+config.total.suffix(attribute)+
@@ -35,6 +37,10 @@ def create_plot(attribute):
         )
     )
     fig.update_layout(**config.style.layout())
+    fig.update_xaxes(
+        ticktext=year_ticks.year,
+        tickvals=year_ticks.dateCZ,
+    )
     return fig
 
 def register(app):

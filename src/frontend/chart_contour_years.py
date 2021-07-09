@@ -25,21 +25,12 @@ def create_plot(attribute):
     # create plot
     fig = go.Figure(
         data=go.Contour(
-            z=z,
-            x=months_names,
-            y=years,
-            #contours=dict(
-            #    coloring ='heatmap',
-            #    showlabels = True, # show labels on contours
-            #    labelfont = dict( # label font properties
-            #        size = 12,
-            #        color = 'white',
-            #    )
-            #),
+            x=months_names, y=years, z=z,
             hovertemplate=
                 "<b>%{x} %{y}</b><br>" +
                 "%{z:.0f}"+config.total.suffix(attribute)+
-                "<extra></extra>"
+                "<extra></extra>",
+            showscale=False
         )
     )
     fig.update_layout(**config.style.layout())

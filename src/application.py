@@ -25,11 +25,11 @@ def create_light_app():
 def setup_app():
     # create app
     app = create_light_app()
-    # set layout
-    app.layout = frontend.layout()
     # initialize frontend
     import data
     frontend.register(app, data.cyklo.load)
+    # set layout
+    app.layout = frontend.layout()
     #server = app.server
     return app
     # run server

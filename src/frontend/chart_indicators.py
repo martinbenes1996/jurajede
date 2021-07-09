@@ -26,11 +26,16 @@ def get_month_data(history_size):
         .drop(x.index[x.shape[0]-1])
     return now,past
 
-indicator_title = {'km': "Ujeto", "km_p_day": "Denní průměr", "km_p_activeday": "Průměr aktivních dnů",
-                   'km-total': "Ujeto", "equators-total": "Dokola kolem rovníku", "days-total": "Aktivních dní na kole"}
+indicator_title = {
+    'km': "Ujeto",
+    "km_p_day": "Denní průměr",
+    "km_p_activeday": "Průměr aktivních dnů",
+    'km-total': "Ujeto",
+    "equators-total": "Dokola kolem rovníku",
+    "days-total": "Aktivních dní na kole"
+}
 
 def create_month_indicator(history_size, attr):
-    #print(f"Creating month indicator for {attr} with history {history_size}")
     # get data
     now,past = get_month_data(history_size)
     attr_name = config.indicators.title(attr)
@@ -40,17 +45,15 @@ def create_month_indicator(history_size, attr):
     month_now_name = datetime.strftime(datetime.strptime('2020-%02d-01'%month_now,'%Y-%m-%d'),'%B')
     # past
     attr_past_mean = past[attr].mean()
-    #print(f'month indicator {attr} with {attr_now}/{attr_past_mean}')
     # plot
     title = indicator_title.get(attr, None)
     fig = go.Figure()
     fig.add_trace(go.Indicator(
-        title = {"text": title, 'font': {'size': 8}},
+        #title = {"text": title, 'font': {'size': 8}},
         mode = "number+delta",
         value = attr_now,
-        number = {'suffix': config.indicators.suffix(attr), 'font': {'size': 20}, 'prefix': config.indicators.prefix(attr)},
-        delta = {'reference': attr_past_mean, 'relative': True, 'font': {'size': 15}}#,
-        #domain = {'row': 0, 'column': 0}
+        number = {'suffix': config.indicators.suffix(attr), 'font': {'size': 15}, 'prefix': config.indicators.prefix(attr)},
+        delta = {'reference': attr_past_mean, 'relative': True, 'font': {'size': 15}}
     ))
     fig.update_layout(**config.style.layout())
     return fig
@@ -60,8 +63,6 @@ def create_total_indicator(history_size, attr, format=None):
     x = get_data(history_size)
     attr_name = config.indicators.title(attr)
     # sum
-    #if attr == 'km':
-    #    print(x.km.to_numpy())
     value = float(
         x[[attr]]\
             .dropna()\
@@ -74,12 +75,10 @@ def create_total_indicator(history_size, attr, format=None):
     title = indicator_title.get(attr + "-total", None)
     fig = go.Figure()
     fig.add_trace(go.Indicator(
-        title = {"text": title, 'font': {'size': 10}},
+        #title = {"text": title, 'font': {'size': 10}},
         mode = "number",
         value = value,
         number = {'valueformat': format, 'suffix': config.indicators.suffix(attr), 'font': {'size': 20}, 'prefix': config.indicators.prefix(attr)}
-        #delta = {'reference': attr_past_mean, 'relative': True, 'font': {'size': 10}}#,
-        #domain = {'row': 0, 'column': 0}
     ))
     fig.update_layout(**config.style.layout())
     return fig
@@ -121,27 +120,11 @@ def register(app):
         print("chart_indicators._km_total()")
         history_size = config.history.size(index)
         return create_total_indicator(history_size, 'km')
-    #@app.callback(
-    #    dash.dependencies.Output('indicator-days-total', 'figure'),
-    #    dash.dependencies.Input('history-size-slider', 'value')
-    #)
-    #def _km_total(index):
-    #    history_size = config.history.size(index)
-    #    return create_total_indicator(history_size, 'days')
-    #@app.callback(
-    #    dash.dependencies.Output('indicator-equators-total', 'figure'),
-    #    dash.dependencies.Input('history-size-slider', 'value')
-    #)
-    #def _km_total(index):
-    #    history_size = config.history.size(index)
-    #    return create_total_indicator(-1, 'equators', '.4f')
-
 
 def plot(type, format = None):
     type_list = type.split('-')
     if len(type_list) == 1:
         return create_month_indicator(config.history.default(), type)
     elif len(type_list) == 2 and type_list[1] == 'total':
-        #history_size = config.history.size([config.history.max()])
         return create_total_indicator(100, type_list[0], format)
         

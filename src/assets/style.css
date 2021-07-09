@@ -1,112 +1,128 @@
-body {
-    /*background-color: #333333;*/
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    z-index: 999;
+    transition: 0.5s;
 }
 
-/*Hide toolbar from all plots*/
+#sidebarCollapse {
+    margin-bottom: 1rem;
+    opacity: 60%
+}
+
+/* Shrinking the sidebar from 250px to 80px and center aligining its content*/
+#sidebar.active {
+    width: 16rem;
+}
+
+/* Toggling the sidebar header content, hide the big heading [h3] and showing the small heading [strong] and vice versa*/
+#sidebar div {
+    visibility: hidden;
+    transition: 0s;
+    /*display: none;*/
+}
+#sidebar.active div {
+    visibility: visible;
+    transition: 0s;
+    /*display: block;*/
+}
+a.nav-link {
+    border-left: 2px solid rgba(0,0,0,0.1);
+    transition: 0.2s
+}
+a.nav-link.active {
+    border-left: 2px solid rgba(0,0,0,0.7);
+}
+
+/* Sidebar date. */
+#sidebar #sidebarDate {
+    visibility: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 1rem;
+    z-index: 995;
+    transition: 0.2s;
+}
+#sidebar.active #sidebarDate {
+    visibility: visible;
+}
+
+
+/* Content header. */
+.contentHeader{
+    position: relative;
+    margin-top: 3rem;
+    left: 0;
+    width: 100%;
+    z-index: 901;
+}
+
+/* Hide toolbar from all plots */
 .modebar{
     display: none !important;
 }
 
-#sidebar {
-    text-align: center;
-    padding: 2rem 1rem;
-    /*background-color: #1d1f20;
-    color: #ffffff;*/
+/* Content. */
+#page-content {
+    z-index: 900;
 }
-  
-/*#sidebar h2 {
-    text-align: left;
-    margin-bottom: 0;
-}*/
-  
-/* Hide the blurb on a small screen */
-/*#blurb {
-    display: none;
+#page-content-overlay {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 992;
+    background-color: #000000;
+    transition: 0.5s;
 }
-  
-#sidebar-toggle {
-    display: none;
-}*/
-  
-/*#collapse *:first-child {
-    margin-top: 1rem;
-}*/
-  
-/* add the three horizontal bars icon for the toggle */
-/*.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255,255,255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+#page-content-overlay.active {
+    opacity: 80%;
+    visibility: visible;
 }
-*/
-.card {
-    border: 0px;
+#dashboard-content {
+    padding-right: 2rem;
+    padding-left: 2rem;
 }
 
-#page-content {
-    padding: 3vh 2vh;/*2rem 1rem;*/
-    padding-right: 3vh;/*1rem;*/
-    /*color: #ffffff;*/
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
-  
-@media (min-width: 48em) {
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.25);
+}
+
+@media (max-width: 48em) {
+    
     #sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        padding-top: 3rem;
-        width: 15rem;
-        text-align: left;
-        transition: margin 0.3s ease-in-out, padding 0.3s ease-in-out;
+        width: 0rem;
+        padding: .5rem;
     }
-  
-    #sidebar-toggle {
-        display: inline-block;
+
+    #sidebar.active {
+        width: 16rem;
+    }
+
+    #sidebarCollapse {
+        margin-bottom: 1rem;
+    }
+    
+    .contentHeader{
         position: relative;
-        top: 0;
-        transition: top 0.3s ease-in-out;
-    }
-  
-    /* add negative margin to sidebar to achieve the collapse */
-    /*#sidebar.collapsed {
-        margin-left: -15.5rem;
-        padding-right: 0.5rem;
-    }*/
-  
-    /* move the sidebar toggle up to the top left corner */
-    /*#sidebar.collapsed #sidebar-toggle {
-        top: -2rem;
-    }*/
-  
-    /* also adjust margin of page content */
-    /*#sidebar.collapsed ~ #page-content {
-        margin-left: 6.5rem;
-    }*/
-  
-    /* move all contents of navbar other than header (containing toggle) further
-       off-screen */
-    /*#sidebar.collapsed > *:not(:first-child) {
-        margin-left: -6rem;
-        margin-right: 6rem;
-    }*/
-  
-    /* reveal the blurb on a large screen */
-    /*#blurb {
-        display: block;
-    }*/
-  
-    /* Hide the toggle on a large screen */
-    /*#navbar-toggle {
-        display: none;
-    }*/
-  
-   /* #collapse {
-        display: block;
-    }*/
-  
-    /* set margins of the main content so that it doesn't overlap the sidebar */
-    #page-content {
-        margin-left: 22rem;
-        margin-right: 2rem;
-        transition: margin-left 0.3s ease-in-out;
+        margin-top: 3rem;
+        left: 0;
+        width: 100%;
+        z-index: 901;
     }
 }

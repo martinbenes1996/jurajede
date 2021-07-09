@@ -34,18 +34,6 @@ class history:
     def min(cls): return 0
     @classmethod
     def max(cls): return cls.len()-1
-    #@classmethod
-    #def index(cls, current = None):
-    #    if current is None: current = cls._default
-    #    else: current = current[0]
-    #    for i,size in enumerate(cls._sizes):
-    #        if current == size:
-    #            return i
-    #@classmethod
-    #def annotation(cls, current = None):
-    #    if current is None: current = cls._default
-    #    else: current = current[0]
-    #    return f'History: {cls.label(cls.current())}.'
 
 class total:
     #_labels = ['Monthly', 'Daily (avg.)', 'Active', 'Idle']
@@ -56,7 +44,7 @@ class total:
                  'km_p_activeday': ' km/aktivní den',#' km/active day',
                  'days': ' dní',#' days',
                  'days_off': ' dní',
-                 'equators': ' rovníků'}#' equators'}
+                 'equators': 'x'}#' equators'}
     _default = 0
     @classmethod
     def default(cls, index=False):
@@ -84,42 +72,18 @@ class total:
     @classmethod
     def max(cls): return cls.size() - 1
 
-#class series:
-#    #_labels = ['Monthly','Daily (avg.)','Activity'],
-#    _labels = ['Měsíčně','Denně (prům.)','Aktivní dny']
-#    _attributes = ['km','km_p_day','days']
-#    _default = 0
-#    @classmethod
-#    def default(cls, index=False):
-#        if not index: return cls._labels[cls._default]
-#        else: return cls._default
-#    @classmethod
-#    def label(cls, current=None):
-#        if current is None: current = cls._default
-#        else: current = current[0]
-#        return cls._labels[current]
-#    @classmethod
-#    def attribute(cls, current=None):
-#        if current is None: current = cls._default
-#        else: current = current[0]
-#        return cls._attributes[current]
-#    @classmethod
-#    def labels(cls): return cls._labels
-#    @classmethod
-#    def size(cls): return len(cls._labels)
-#    @classmethod
-#    def min(cls): return 0
-#    @classmethod
-#    def max(cls): return cls.size() - 1
-
 class indicators:
     #_types = {'km': 'Kilometers', 'km_p_day': 'Average daily kilometers', 'km_p_activeday': 'Average kilometers per active day', 'days': 'Days', 'equators': 'Earth equators'}
-    _types = {'km': 'Kilometry', 'km_p_day': 'Průměrné denní kilometry', 'km_p_activeday': 'Průměr kilometrů na aktivní den', 'days': 'Dny', 'equators': 'Rovníky'}
+    _types = {'km': 'Kilometry',
+              'km_p_day': 'Průměrné denní kilometry',
+              'km_p_activeday': 'Průměr kilometrů na aktivní den',
+              'days': 'Dny',
+              'equators': 'Rovníky'}
     _suffixes = {'km': ' km',
-                 'km_p_day': ' km/den',#' km/day',
-                 'km_p_activeday': ' km/aktivní den',#' km/active day',
+                 'km_p_day': ' km',#' km/den',#' km/day',
+                 'km_p_activeday': ' km',#' km/aktivní den',#' km/active day',
                  'days': ' dnů',#' days',
-                 'equators': ' rovníků'}#' equators'}
+                 'equators': 'x'}#' equators'}
     _prefixes = {'km_p_day': '~', 'km_p_activeday': '~'}
     @classmethod
     def types(cls): return list(cls._types.keys())
@@ -134,7 +98,6 @@ class indicators:
         return cls._prefixes.get(type, '')
 
 def format_month(dt):
-    #return datetime.strftime(dt, '%B %Y')
     cz_months = ['Leden','Únor','Březen','Duben','Květen','Červen',
                  'Červenec','Srpen','Září','Říjen','Listopad','Prosinec']
     month_id = int(datetime.strftime(dt, '%m'))
@@ -147,7 +110,8 @@ class style:
     _figure_layout = {
         'template': 'plotly_light',
         'plot_bgcolor': 'rgba(0, 0, 0, 0)',
-        'paper_bgcolor': 'rgba(0, 0, 0, 0)'
+        'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+        'margin': {'l': 20, 'r': 20, 't': 20, 'b': 20}
     }
     @classmethod
     def layout(cls):
@@ -172,11 +136,12 @@ class data:
         # expired
         if not cls._expires or now > cls._expires:
             cls._cached = cls._src()
-            cls._expires = now + timedelta(seconds=10)#minutes=3)
+            cls._expires = now + timedelta(minutes=3)
         return cls._cached
     @classmethod
     def this_month(cls):
         x = cls.cyklo()
+        x = x.sort_values('date')
         this_month = x.tail(1)
         return int(this_month.year), int(this_month.month)
     
