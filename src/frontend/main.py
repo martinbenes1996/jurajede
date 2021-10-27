@@ -14,6 +14,7 @@ from . import page_total
 
 
 def layout():
+    print("layout")
     sidebar = nav.layout()
     content = html.Div([
         html.Div(id="page-content-overlay"),
@@ -35,6 +36,7 @@ def register(app):
                    Output("page-content","children")],
                   Input("url", "pathname"))
     def loading_page_spinner(pathname):
+        print("loading_page_spinner:", pathname)
         if pathname == "/": layout = page_home.layout()
         elif pathname == "/total": layout = page_total.layout()
         elif pathname == "/data": layout = page_data.layout()
@@ -59,11 +61,12 @@ def register(app):
                    State("page-content-overlay", "className")],
                   prevent_initial_call=True)
     def show_menu(n1, n2, pathname, classname1, classname2):
+        print("show_menu:", pathname)
         #print("show_menu", n1, n2, classname1, classname2)
         is_active = classname1 == ""
         active_cls = "active" if is_active else ""
         button_cls = "btn-dark" if is_active else "btn-light"
-        return active_cls, active_cls, button_cls
+        return active_cls, active_cls, button_cls                                                                                
 
     # download CSV
     @app.callback(
@@ -72,6 +75,7 @@ def register(app):
         prevent_initial_call=True,
     )
     def download_data(n_clicks):
+        print("download_data")
         x = config.data.cyklo()
         return dcc.send_data_frame(x.to_csv, "data.csv")
     

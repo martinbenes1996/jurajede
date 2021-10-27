@@ -23,7 +23,7 @@ def layout():
     indicatorDaysTotal = create_indicator(chart_indicators.plot('days-total'), 'indicator-days-total')
     equatorsTotal = create_indicator(chart_indicators.plot('equators-total', '.4f'), 'indicator-equators-total')
     # plots
-    seriesTotal = dcc.Graph(figure=chart_series_total.total(), id='series-total')
+    traceYear = dcc.Graph(figure=chart_series_total.total(), id='trace-year')
     contourYears = dcc.Graph(figure=chart_contour_years.years(), id='contour-years', style={'height': '80vh'})
     # this month
     now = config.data.this_month()
@@ -36,7 +36,7 @@ def layout():
             ], className="text-center")
         ], className="contentHeader"),
         # total series
-        seriesTotal,
+        traceYear,
         dbc.Tooltip(
             "Historie měsíčních kilometrů od roku 1992.",
             target="trace-year"
